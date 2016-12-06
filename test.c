@@ -8,40 +8,22 @@
 
 void dataMalloc(struct dataArray *sa)
 {
-	int n=3;
-	sa=malloc(sizeof(struct dataArray)+3*sizeof(int));
-	memset(sa,0,sizeof(*sa));
-	sa->nr=3;
-	sa->data[0]=1;
-	sa->data[2]=2;
-	sa->data[3]=3;
+	int n=10;
+	int a[10]={5,50,14,36,9,7,17,68,95,57};
+	//sa=malloc(sizeof(struct dataArray)+3*sizeof(int));
+	sa->data=malloc(n*sizeof(int));
+	memset(sa->data,0,sizeof(*(sa->data)));
+	sa->nr=n;
+	char i;
+	for(i=0;i<n;i++)
+		sa->data[i]=a[i];
 }
 
 
 
-main()
+int main()
 {
 	struct dataArray sa;
 	dataMalloc(&sa);	
-	/*
-	sa.nr=10;	
-	int data[10]={4,5,3,9,44,51,35,99,37,16};
-	char si=0;
-	for(si=0;si<sa.nr;si++)
-		sa.data[si]=data[si];
-	
-	sa.data[0]=4;
-	sa.data[1]=5;
-	sa.data[2]=3;
-	sa.data[3]=9;
-	sa.data[4]=4;
-	sa.data[5]=4;
-	sa.data[6]=4;
-	sa.data[7]=4;
-	sa.data[8]=4;
-	sa.data[9]=4;
-*/
 	saprint(&sa);
-//	saprint(&sa);
-//	free(&sa);
 }
