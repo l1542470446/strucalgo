@@ -1,15 +1,11 @@
 #include <stdio.h>
+#include <saprint.h>
 
-struct dataArray{
-	unsigned int nr;
-	int data[];
-}
-
-main()
+void saprint(struct dataArray *sa)
 {
-	struct dataArray sa;
-	sa.nr=2;
-	sa.data[0]=1;
-	sa.data[1]=2;
-	printf("ssss %d,%d\n",sa.data[0],sa.data[1]);
+	char i=0;
+	for(i=0;i<sa->nr;i++)
+		printf("%d ",sa->data[i]);
+	printf("\n");
 }
+
