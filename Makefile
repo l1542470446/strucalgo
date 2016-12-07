@@ -3,7 +3,8 @@ INCLUDE := \
 	-Iinclude	
 SRCFILE := \
 	common/saprint.c \
-	test.c
+	test.c \
+	sort/bubble.c
 
 
 test:$(SRCFILE)

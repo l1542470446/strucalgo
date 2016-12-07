@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include <saprint.h>
-
+#include <sort.h>
 
 void dataMalloc(struct dataArray *sa)
 {
@@ -25,5 +25,8 @@ int main()
 {
 	struct dataArray sa;
 	dataMalloc(&sa);	
-	saprint(&sa);
+	bubbleSort(&sa);
+//	int i=1;
+//	for (i=2;i>0;i--)
+//		saprint(&sa);
 }
