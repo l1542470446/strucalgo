@@ -4,7 +4,7 @@ INCLUDE := \
 SRCFILE := \
 	common/saprint.c \
 	test.c \
-	sort/bubble.c
+	sort/*.c
 
 
 test:$(SRCFILE)

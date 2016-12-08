@@ -5,5 +5,7 @@
 #include <saprint.h>
 
 void bubbleSort(struct dataArray *data);
+void selectSortDC0(struct dataArray *data);
+void selectSortIC0(struct dataArray *data);
 
 #endif

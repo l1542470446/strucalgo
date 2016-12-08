@@ -1,4 +1,3 @@
-
 #include <saprint.h>
 #include <sort.h>
 
@@ -17,5 +16,5 @@ void bubbleSort(struct dataArray *data)
 			}
 			saprint(data);
 		}
-	}	
+	}
 }

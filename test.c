@@ -24,8 +24,9 @@ void dataMalloc(struct dataArray *sa)
 int main()
 {
 	struct dataArray sa;
-	dataMalloc(&sa);	
-	bubbleSort(&sa);
+	dataMalloc(&sa);
+	//bubbleSort(&sa);
+	selectSortIC0(&sa);
 //	int i=1;
 //	for (i=2;i>0;i--)
 //		saprint(&sa);
