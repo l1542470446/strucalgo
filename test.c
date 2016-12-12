@@ -26,7 +26,8 @@ int main()
 	struct dataArray sa;
 	dataMalloc(&sa);
 	//bubbleSort(&sa);
-	selectSortIC0(&sa);
+	//selectSortIC0(&sa);
+	insertSortI(&sa);
 //	int i=1;
 //	for (i=2;i>0;i--)
 //		saprint(&sa);

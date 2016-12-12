@@ -1,13 +1,6 @@
 #include <saprint.h>
 #include <sort.h>
-
-void dataExchange(int *a,int *b)
-{
-    int c;
-    c=*a;
-    *a=*b;
-    *b=c;
-}
+#include <function.h>
 
 
 void selectSortDC0(struct dataArray *data)

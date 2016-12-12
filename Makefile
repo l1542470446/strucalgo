@@ -2,7 +2,7 @@
 INCLUDE := \
 	-Iinclude	
 SRCFILE := \
-	common/saprint.c \
+	common/*.c \
 	test.c \
 	sort/*.c
 
