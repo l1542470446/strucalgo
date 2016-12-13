@@ -27,7 +27,8 @@ int main()
 	dataMalloc(&sa);
 	//bubbleSort(&sa);
 	//selectSortIC0(&sa);
-	insertSortI(&sa);
+	//insertSortI(&sa);
+	shellSort(&sa);
 //	int i=1;
 //	for (i=2;i>0;i--)
 //		saprint(&sa);
