@@ -1,8 +1,13 @@
 #include <saprint.h>
 #include <sort.h>
+<<<<<<< HEAD
 
 #if 0
 //poor efficiency
+=======
+#include <function.h>
+
+>>>>>>> f16a000657dfa8b873edae51923ca635a2a293ce
 void shellSort(struct dataArray *data)
 {
     unsigned int tmpNr = data->nr;
@@ -25,6 +30,7 @@ void shellSort(struct dataArray *data)
         saprint(data);
     }
 }
+<<<<<<< HEAD
 #endif
 
 void shellSort(struct dataArray *data)
@@ -49,3 +55,5 @@ void shellSort(struct dataArray *data)
         saprint(data);
     }
 }
+=======
+>>>>>>> f16a000657dfa8b873edae51923ca635a2a293ce
