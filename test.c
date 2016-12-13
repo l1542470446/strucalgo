@@ -19,8 +19,6 @@ void dataMalloc(struct dataArray *sa)
 		sa->data[i]=a[i];
 }
 
-
-
 int main()
 {
 	struct dataArray sa;
@@ -28,8 +26,8 @@ int main()
 	//bubbleSort(&sa);
 	//selectSortIC0(&sa);
 	//insertSortI(&sa);
-	shellSort(&sa);
-//	int i=1;
-//	for (i=2;i>0;i--)
-//		saprint(&sa);
+	//shellSort(&sa);
+	//saprint(&sa);
+	mergeSort(&sa);
+	//saprint(&sa);
 }
