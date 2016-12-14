@@ -9,7 +9,7 @@
 void dataMalloc(struct dataArray *sa)
 {
 	int n=10;
-	int a[10]={5,50,14,36,9,7,17,68,95,57};
+	int a[10] ={5,50,14,36,9,7,17,68,95,57};
 	//sa=malloc(sizeof(struct dataArray)+3*sizeof(int));
 	sa->data=malloc(n*sizeof(int));
 	memset(sa->data,0,sizeof(*(sa->data)));
@@ -28,6 +28,7 @@ int main()
 	//insertSortI(&sa);
 	//shellSort(&sa);
 	//saprint(&sa);
-	mergeSort(&sa);
+	//mergeSort(&sa);
+	quickSort(&sa);
 	//saprint(&sa);
 }
