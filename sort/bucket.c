@@ -36,7 +36,7 @@ void bSort(int *data, uint n)
         udata[ data[i] + off ]++;
     }
     for (i = 0,j = 0; i < umax; i++) {
-        if (udata[i] != 0) {
+        while (udata[i]--) {
             data[j++] = i - off;
         }
     }
