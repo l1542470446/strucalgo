@@ -27,8 +27,9 @@ int main()
 	//selectSortIC0(&sa);
 	//insertSortI(&sa);
 	//shellSort(&sa);
-	//saprint(&sa);
+	saprint(&sa);
 	//mergeSort(&sa);
-	quickSort(&sa);
+	//quickSort(&sa);
+	bucketSort(&sa);
 	//saprint(&sa);
 }
