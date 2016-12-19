@@ -1,13 +1,11 @@
 
 INCLUDE := \
-	-Iinclude	
+	-Iinclude
 SRCFILE := \
 	common/*.c \
-	test.c \
 	sort/*.c
 
-
-test:$(SRCFILE)
-	gcc $(INCLUDE) -o $@ $^
+sorttest:$(SRCFILE)
+	gcc $(INCLUDE) -o $@ $^ sorttest.c
 clean:
-	rm test
+	$(shell [ -e sorttest ] && rm sorttest)

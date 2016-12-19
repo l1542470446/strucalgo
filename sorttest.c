@@ -30,6 +30,7 @@ int main()
 	saprint(&sa);
 	//mergeSort(&sa);
 	//quickSort(&sa);
-	bucketSort(&sa);
+	//bucketSort(&sa);
+	heapSort(&sa);
 	//saprint(&sa);
 }
