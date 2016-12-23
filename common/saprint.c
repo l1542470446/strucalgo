@@ -14,13 +14,13 @@ void saprint(struct dataArray *sa)
 }
 
 /**************************************************************************************
-*								|	i++,layer=5	layerBit=	layerSpa=		layer_num=
-*0123456789ABCDEF				|	i < layer	2^(layer-i)	2^(layer-1-i)-1	2^i
-*               1				|	0			32			15				1
-*       2               3		|	1			16			7				2
-*   4       5       6       7	|	2			8			3				4
-* 8   9   A   A   A   A   A   A	|	3			4			1				8
-*B B B B B B B B				|	4			2			0				16
+*				|i++,layer=5	layerBit=	layerSpa=		layer_num=
+*0123456789ABCDEF		|i < layer	2^(layer-i)	2^(layer-1-i)-1	2^i
+*               1		|0		32		15			1
+*       2               3	|1		16		7			2
+*   4       5       6       7	|2		8		3			4
+* 8   9   A   A   A   A   A   A	|3		4		1			8
+*B B B B B B B B		|4		2		0			16
 **************************************************************************************/
 void prArrBinTree(int *array,uint num)
 {

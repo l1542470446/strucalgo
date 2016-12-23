@@ -11,7 +11,7 @@ SRCFILE := \
 	structure/tree/*.c
 
 sorttest:$(SRCFILE)
-	@gcc $(INCLUDE) -o $@ $^ $(TESTDIR)/sorttest.c
+	@gcc $(INCLUDE) -o $@ $^ $(TESTDIR)/sorttest.c $(GCCLIB)
 pqtest:$(SRCFILE)
 	@gcc $(INCLUDE) -o $@ $^ $(TESTDIR)/pqtest.c $(GCCLIB)
 clean:
