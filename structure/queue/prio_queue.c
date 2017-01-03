@@ -8,7 +8,7 @@
 * empty : true
 * not empty : false
 *********************************************************/
-bool emptyPrioQueue(struct prioQueue *pq)
+bool emptyBinHeap(struct binHeap *pq)
 {
     if (pq->size == 0)
         return true;
@@ -20,7 +20,7 @@ bool emptyPrioQueue(struct prioQueue *pq)
 * full : true
 * not full : false
 *********************************************************/
-bool fullPrioQueue(struct prioQueue *pq)
+bool fullBinHeap(struct binHeap *pq)
 {
     if (pq->size == pq->capacity)
         return true;
@@ -28,7 +28,7 @@ bool fullPrioQueue(struct prioQueue *pq)
         return false;
 }
 
-void freePrioQueue(struct prioQueue *pq)
+void freeBinHeap(struct binHeap *pq)
 {
     if (pq->elements != NULL)
         free(pq->elements);
@@ -36,7 +36,7 @@ void freePrioQueue(struct prioQueue *pq)
         free(pq);
 }
 
-void zeroPrioQueue(struct prioQueue *pq)
+void zeroBinHeap(struct binHeap *pq)
 {
     uint n = pq->size;
     int *data = pq->elements;
@@ -45,10 +45,10 @@ void zeroPrioQueue(struct prioQueue *pq)
         data[i] = 0;
 }
 
-struct prioQueue *allocPrioQueue(uint num, uint type)
+struct binHeap *allocBinHeap(uint num, uint type)
 {
-    struct prioQueue *pq = NULL;
-    pq = malloc(sizeof(struct prioQueue));
+    struct binHeap *pq = NULL;
+    pq = malloc(sizeof(struct binHeap));
     if (pq == NULL) {
         ERROR("priority queue malloc failure!\n");
         return NULL;
@@ -77,9 +77,9 @@ struct prioQueue *allocPrioQueue(uint num, uint type)
     return pq;
 }
 
-int inserPrioQueue(struct prioQueue *pq, int element)
+int inserBinHeap(struct binHeap *pq, int element)
 {
-    if (fullPrioQueue(pq)) {
+    if (fullBinHeap(pq)) {
         WARN("priority queue full !\n");
         return 1;
     }
@@ -103,7 +103,7 @@ int inserPrioQueue(struct prioQueue *pq, int element)
 *                 |    |
 *          index :1    2  ...
 *********************************************************/
-int percolateDown(struct prioQueue *pq, uint index)
+int percolateDown(struct binHeap *pq, uint index)
 {
     uint child, i, n;
     int tmp;
@@ -142,10 +142,10 @@ int percolateDown(struct prioQueue *pq, uint index)
     return 0;
 }
 
-int deletePrioQueue(struct prioQueue *pq, uint index)
+int deleteBinHeap(struct binHeap *pq, uint index)
 {
     int ret = 0;
-    if (emptyPrioQueue(pq)) {
+    if (emptyBinHeap(pq)) {
         WARN("priority queue is empty\n");
         return 1;
     }

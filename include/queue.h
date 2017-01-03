@@ -16,7 +16,7 @@
 ********************************************/
 #define LCHILD(i) (2*(i))
 
-struct prioQueue {
+struct binHeap {
 #define PQUEUE_MIN 0
 #define PQUEUE_MAX 1
     uint type;
@@ -25,14 +25,14 @@ struct prioQueue {
     int *elements;
 };
 
-extern struct prioQueue *allocPrioQueue(uint num, uint type);
-extern void freePrioQueue(struct prioQueue *pq);
-extern void zeroPrioQueue(struct prioQueue *pq);
-extern int inserPrioQueue(struct prioQueue *pq, int element);
-extern bool emptyPrioQueue(struct prioQueue *pq);
-extern bool fullPrioQueue(struct prioQueue *pq);
-extern int deletePrioQueue(struct prioQueue *pq, uint index);
-extern int percolateDown(struct prioQueue *pq, uint index);
+extern struct binHeap *allocBinHeap(uint num, uint type);
+extern void freeBinHeap(struct binHeap *pq);
+extern void zeroBinHeap(struct binHeap *pq);
+extern int inserBinHeap(struct binHeap *pq, int element);
+extern bool emptyBinHeap(struct binHeap *pq);
+extern bool fullBinHeap(struct binHeap *pq);
+extern int deleteBinHeap(struct binHeap *pq, uint index);
+extern int percolateDown(struct binHeap *pq, uint index);
 
 extern void buildHeap(int *data, uint n, uint type);
 
