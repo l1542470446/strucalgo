@@ -22,4 +22,10 @@ struct dataArray{
 	int *data;
 };
 
+#define sa_offsetof(TYPE, MEMBER)	((uint)&((TYPE *)0)->MEMBER)
+
+#define container_of(ptr, type, member) ({			\
+	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
+	(type *)( (char *)__mptr - sa_offsetof(type,member) );})
+
 #endif

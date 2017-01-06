@@ -49,3 +49,56 @@ void prArrBinTree(int *array,uint num)
 		printf("\n");
 	}
 }
+
+struct treeNodeList *__prBinTree(struct treeNodeList *head, uint layer, uint layerMax, uchar bit)
+{
+	if (head->next == head)
+		return;
+	uint layerNum, layerSpa, layerBit;
+	layerNum = pow(2,layer);
+	layerSpa = pow(2, layerMax - 1 - layer) - 1;
+	layerSpa = layerSpa * bit;
+	layerBit = pow(2, layerMax - layer);
+	layerBit = layerBit * bit;
+	printf("%-*s", layerSpa, "");
+
+	struct treeNodeList *tmp;
+	struct treeNodeList *next;
+	struct treeNode *tntmp;
+
+	next = allocTnl();
+
+	for (tmp = head->next; tmp != head; tmp = tmp->next) {
+		tntmp = tmp->tn;
+		if (tmp->type == TN_FULL) {
+			printf("%-*d", layerBit, tntmp->element);
+		} else if (tmp->type == TN_NULL) {
+			printf("%-*s", layerBit, " ");
+		}
+		listAddTnlTail(tntmp->left, next);
+		listAddTnlTail(tntmp->right, next);
+	}
+	printf("\n");
+	freeTnlList(head);
+	checkTnlList(next);
+	return next;
+}
+
+void prSimpBinTree(struct treeNode *head)
+{
+	//TODO:layerBinTree()
+	uint layermax = 3;
+	//calculate max value bit,TODO:findAbMaxBTree
+	uint absoMax = 99;
+	uchar bit = uDataBit(absoMax);
+	uint i, j;
+	struct treeNodeList *curnlist = NULL;
+	struct treeNodeList *nextlist = NULL;
+	curnlist = allocTnl();
+	listAddTnlTail(head, curnlist);
+	for (i = 0; i < layermax; i++) {
+		nextlist = __prBinTree(curnlist, i, layermax, bit);
+		curnlist = nextlist;
+	}
+	freeTnlList(curnlist);
+}
