@@ -3,6 +3,7 @@
 #include <types.h>
 #include <queue.h>
 #include <saprint.h>
+#include <tree.h>
 
 /********************************************************
 * empty : true
@@ -157,4 +158,130 @@ int deleteBinHeap(struct binHeap *pq, uint index)
     pq->size--;
     ret = percolateDown(pq, index);
     return ret;
+}
+
+/********************************************/
+/*                  left-heap               */
+/********************************************/
+
+struct leftHeap *allocLeftHeap()
+{
+    struct leftHeap *lh = NULL;
+    lh = malloc(sizeof(struct leftHeap));
+    if (lh == NULL) {
+        ERROR("left heap alloc fail!\n");
+        return lh;
+    }
+    lh->tn.left = lh->tn.right = NULL;
+    lh->npl = 0;
+    return lh;
+}
+
+static void swapChildLeft(struct leftHeap *lh)
+{
+    struct treeNode *tmp = NULL;
+    tmp = lh->tn.right;
+    lh->tn.right = lh->tn.left;
+    lh->tn.left = tmp;
+}
+
+static struct leftHeap *__mergeLeftHeap(struct leftHeap *lh1, struct leftHeap *lh2)
+{
+    struct leftHeap *right = NULL, *left = NULL;
+    struct leftHeap *tmp = NULL;
+    if (lh1->tn.left == NULL) {
+        lh1->tn.left = &(lh2->tn);
+    } else {
+        right = toLeftHeap(lh1->tn.right);
+        tmp = mergeLeftHeap(right, lh2);
+        lh1->tn.right = &(tmp->tn);
+        right = tmp;
+        left = toLeftHeap(lh1->tn.left);
+        if (left->npl < right->npl)
+            swapChildLeft(lh1);//swap
+        right = toLeftHeap(lh1->tn.right);
+        lh1->npl = right->npl + 1;
+    }
+    return lh1;
+}
+
+struct leftHeap *mergeLeftHeap(struct leftHeap *lh1, struct leftHeap *lh2)
+{
+    if (lh1 == NULL)
+        return lh2;
+    if (lh2 == NULL)
+        return lh1;
+    if (lh1->tn.element < lh2->tn.element)
+        return __mergeLeftHeap(lh1, lh2);
+    else
+        return __mergeLeftHeap(lh2, lh1);
+}
+
+struct leftHeap *inserLeftHeap(int data, struct leftHeap *lh)
+{
+    struct leftHeap *new = NULL;
+    new = allocLeftHeap();
+    if (new == NULL)
+        return new;
+    new->tn.element = data;
+    return mergeLeftHeap(new, lh);
+}
+
+void prLeftHeap(struct leftHeap *lh)
+{
+    struct treeNode *tr = NULL;
+    tr = &lh->tn;
+    //calculate max layer num
+	uint layermax = layerBinTree(tr);
+	//calculate max value and max bit
+	uint absoMax = findAbLeftHeap(lh);
+	uchar bit = uDataBit(absoMax);
+	uint i, j;
+	struct treeNodeList *curnlist = NULL;
+	struct treeNodeList *nextlist = NULL;
+	curnlist = allocTnl();
+	listAddTnlTail(tr, curnlist);
+	for (i = 0; i < layermax; i++) {
+		nextlist = __prBinTree(curnlist, i, layermax, bit);
+		curnlist = nextlist;
+	}
+	freeTnlList(curnlist);
+}
+
+uint findAbLeftHeap(struct leftHeap *lh)
+{
+    int max, min;
+    uint abso = 0;
+    struct treeNode *tr = NULL;
+    tr = &lh->tn;
+    max = maxBinTree(tr);
+    min = lh->tn.element;
+    if (max <= 0) {
+        abso = (uint)(0 - min);
+    } else if (min >= 0){
+        abso = max;
+    } else {
+        abso = 0 - min;
+        if (abso < max)
+            abso = max;
+    }
+    return abso;
+}
+
+void freeLeftHeap(struct leftHeap *lh)
+{
+    free(lh);
+    lh = NULL;
+}
+
+struct leftHeap *delMinLeftHeap(struct leftHeap *lh)
+{
+    if (lh == NULL)
+        return NULL;
+    struct leftHeap *leftLh, *righLh, *merLh;
+    leftLh = toLeftHeap(lh->tn.left);
+    righLh = toLeftHeap(lh->tn.right);
+    merLh = mergeLeftHeap(leftLh, righLh);
+    freeLeftHeap(lh);
+    return merLh;
 }

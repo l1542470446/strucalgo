@@ -3,10 +3,12 @@
 
 #include <saprint.h>
 #include <queue.h>
+#include "data.h"
 
 extern void printBTreeTest();
 extern void binHeapTest();
 extern void buildHeapTest();
+extern void leftHeapTest();
 
 /* main function */
 void main()
@@ -16,7 +18,9 @@ void main()
     //test 2
     //binHeapTest();
     //test 3
-    buildHeapTest();
+    //buildHeapTest();
+    //test 4
+    leftHeapTest();
 }
 
 /*------------------------------------------------------------------------*/
@@ -53,4 +57,19 @@ void buildHeapTest()
     //buildHeap(aa, 20, PQUEUE_MAX);
     buildHeap(aa, 20, PQUEUE_MIN);
     prArrBinTree(aa, 20);
+}
+
+void leftHeapTest()
+{
+    printf("---------------build left heap test---------------------\n");
+    int i;
+    struct leftHeap *cur = NULL, *next = NULL;
+    for (i = 0; i < 10; i++) {
+        next = inserLeftHeap(arData10[i], cur);
+        cur = next;
+    }
+    prLeftHeap(cur);
+    printf("---------------delete min heap test---------------------\n");
+    next = delMinLeftHeap(cur);
+    prLeftHeap(next);
 }

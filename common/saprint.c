@@ -25,7 +25,7 @@ void saprint(struct dataArray *sa)
 void prArrBinTree(int *array,uint num)
 {
 	//calculate bin-tree layer
-	uint layer = layerBinTree(num);
+	uint layer = layerBinHeap(num);
 	//printf("layer = %d\n", layer);
 	//calculate max value bit
 	uint absoMax = findMaxAbsoVal(array, num);
@@ -87,7 +87,7 @@ struct treeNodeList *__prBinTree(struct treeNodeList *head, uint layer, uint lay
 void prSimpBinTree(struct treeNode *head)
 {
 	//TODO:layerBinTree()
-	uint layermax = 3;
+	uint layermax = 5;
 	//calculate max value bit,TODO:findAbMaxBTree
 	uint absoMax = 99;
 	uchar bit = uDataBit(absoMax);

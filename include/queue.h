@@ -1,8 +1,11 @@
 #include <types.h>
+#include <tree.h>
 
 #ifndef __QUEUE__
 #define __QUEUE__
-
+/********************************************/
+/*                  bin-heap                */
+/********************************************/
 #define INT32_MIN (-2147483648)
 #define INT32_MAX  (2147483647)
 #define UINT32_MIN (0)
@@ -35,5 +38,24 @@ extern int deleteBinHeap(struct binHeap *pq, uint index);
 extern int percolateDown(struct binHeap *pq, uint index);
 
 extern void buildHeap(int *data, uint n, uint type);
+
+/********************************************/
+/*                  left-heap               */
+/********************************************/
+
+struct leftHeap {
+    struct treeNode tn;
+    int npl;
+};
+
+#define toLeftHeap(tree) container_of(tree, struct leftHeap, tn);
+
+extern struct leftHeap *allocLeftHeap();
+extern void freeLeftHeap(struct leftHeap *lh);
+extern struct leftHeap *delMinLeftHeap(struct leftHeap *lh);
+extern struct leftHeap *mergeLeftHeap(struct leftHeap *lh1, struct leftHeap *lh2);
+extern struct leftHeap *inserLeftHeap(int data, struct leftHeap *lh);
+extern void prLeftHeap(struct leftHeap *lh);
+extern uint findAbLeftHeap(struct leftHeap *lh);
 
 #endif

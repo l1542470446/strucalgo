@@ -7,7 +7,7 @@
 * num : element number in a tree
 * return : layers
 ***********************/
-extern uint layerBinTree(uint num);
+extern uint layerBinHeap(uint num);
 
 /* tree node */
 struct treeNode {
@@ -15,6 +15,9 @@ struct treeNode {
     struct treeNode *left;
     struct treeNode *right;
 };
+
+extern uint layerBinTree(struct treeNode *tn);
+extern int maxBinTree(struct treeNode *tn);
 
 /* tree node list */
 struct treeNodeList {
