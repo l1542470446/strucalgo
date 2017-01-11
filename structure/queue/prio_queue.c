@@ -222,7 +222,7 @@ struct leftHeap *inserLeftHeap(int data, struct leftHeap *lh)
     struct leftHeap *new = NULL;
     new = allocLeftHeap();
     if (new == NULL)
-        return new;
+        return lh;
     new->tn.element = data;
     return mergeLeftHeap(new, lh);
 }
@@ -248,14 +248,12 @@ void prLeftHeap(struct leftHeap *lh)
 	freeTnlList(curnlist);
 }
 
-uint findAbLeftHeap(struct leftHeap *lh)
+static uint abMaxTreeHeap(struct treeNode *tr)
 {
     int max, min;
     uint abso = 0;
-    struct treeNode *tr = NULL;
-    tr = &lh->tn;
     max = maxBinTree(tr);
-    min = lh->tn.element;
+    min = tr->element;
     if (max <= 0) {
         abso = (uint)(0 - min);
     } else if (min >= 0){
@@ -268,10 +266,31 @@ uint findAbLeftHeap(struct leftHeap *lh)
     return abso;
 }
 
+uint findAbLeftHeap(struct leftHeap *lh)
+{
+    struct treeNode *tr = NULL;
+    tr = &lh->tn;
+    return abMaxTreeHeap(tr);
+}
+
 void freeLeftHeap(struct leftHeap *lh)
 {
     free(lh);
     lh = NULL;
+}
+
+void freeLeftHeaps(struct leftHeap *lh)
+{
+    struct leftHeap *leftLh, *righLh;
+    if (lh->tn.left != NULL) {
+        leftLh = toLeftHeap(lh->tn.left);
+        freeLeftHeaps(leftLh);
+    }
+    if (lh->tn.right != NULL) {
+        righLh = toLeftHeap(lh->tn.right);
+        freeLeftHeaps(righLh);
+    }
+    freeLeftHeap(lh);
 }
 
 struct leftHeap *delMinLeftHeap(struct leftHeap *lh)
@@ -284,4 +303,117 @@ struct leftHeap *delMinLeftHeap(struct leftHeap *lh)
     merLh = mergeLeftHeap(leftLh, righLh);
     freeLeftHeap(lh);
     return merLh;
+}
+
+/********************************************/
+/*                  skew-heap               */
+/********************************************/
+
+struct skewHeap *allocSkewHeap()
+{
+    struct skewHeap *sh = NULL;
+    sh = malloc(sizeof(struct skewHeap));
+    if (sh == NULL) {
+        ERROR("skew heap alloc fail!\n");
+        return sh;
+    }
+    sh->tn.left = sh->tn.right = NULL;
+    return sh;
+}
+
+void freeSkewHeap(struct skewHeap *sh)
+{
+    free(sh);
+    sh = NULL;
+}
+
+static void swapChileSkew(struct skewHeap *sh)
+{
+    struct treeNode *tmp = NULL;
+    tmp = sh->tn.right;
+    sh->tn.right = sh->tn.left;
+    sh->tn.left = tmp;
+}
+
+static struct skewHeap *__mergeSkewHeap(struct skewHeap *sh1, struct skewHeap *sh2)
+{
+    if (sh1->tn.left == NULL) {
+        sh1->tn.left = &(sh2->tn);
+    } else {
+        struct skewHeap *tmp, *right;
+        tmp = toSkewHeap(sh1->tn.right);
+        right = mergeSkewHeap(tmp, sh2);
+        sh1->tn.right = &(right->tn);
+        swapChileSkew(sh1);
+    }
+    return sh1;
+}
+
+struct skewHeap *mergeSkewHeap(struct skewHeap *sh1, struct skewHeap *sh2)
+{
+    if (sh1 == NULL)
+        return sh2;
+    if (sh2 == NULL)
+        return sh1;
+    if (sh1->tn.element < sh2->tn.element)
+        return __mergeSkewHeap(sh1, sh2);
+    else
+        return __mergeSkewHeap(sh2, sh1);
+}
+
+struct skewHeap *insertSkewHeap(int data, struct skewHeap *sh)
+{
+    struct skewHeap *new = NULL;
+    new = allocSkewHeap();
+    if (new == NULL)
+        return sh;
+    new->tn.element = data;
+    return mergeSkewHeap(new, sh);
+}
+
+void prSkewHeap(struct skewHeap *sh)
+{
+    struct treeNode *tr = NULL;
+    tr = &(sh->tn);
+    //calculate max layer num
+	uint layermax = layerBinTree(tr);
+	//calculate max value and max bit
+	uint absoMax = abMaxTreeHeap(tr);
+	uchar bit = uDataBit(absoMax);
+	uint i, j;
+	struct treeNodeList *curnlist = NULL;
+	struct treeNodeList *nextlist = NULL;
+	curnlist = allocTnl();
+	listAddTnlTail(tr, curnlist);
+	for (i = 0; i < layermax; i++) {
+		nextlist = __prBinTree(curnlist, i, layermax, bit);
+		curnlist = nextlist;
+	}
+	freeTnlList(curnlist);
+}
+
+struct skewHeap *delMinSkewHeap(struct skewHeap *sh)
+{
+    if (sh == NULL)
+        return NULL;
+    struct skewHeap *leftSh, *righSh, *merSh;
+    leftSh = toSkewHeap(sh->tn.left);
+    righSh = toSkewHeap(sh->tn.right);
+    merSh = mergeSkewHeap(leftSh, righSh);
+    freeSkewHeap(sh);
+    return merSh;
+}
+
+void freeSkewHeaps(struct skewHeap *sh)
+{
+    struct skewHeap *leftSh, *righSh;
+    if (sh->tn.left != NULL) {
+        leftSh = toSkewHeap(sh->tn.left);
+        freeSkewHeaps(leftSh);
+    }
+    if (sh->tn.right != NULL) {
+        righSh = toSkewHeap(sh->tn.right);
+        freeSkewHeaps(righSh);
+    }
+    freeSkewHeap(sh);
 }

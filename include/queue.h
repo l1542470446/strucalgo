@@ -48,14 +48,33 @@ struct leftHeap {
     int npl;
 };
 
-#define toLeftHeap(tree) container_of(tree, struct leftHeap, tn);
+#define toLeftHeap(tree) container_of(tree, struct leftHeap, tn)
 
 extern struct leftHeap *allocLeftHeap();
 extern void freeLeftHeap(struct leftHeap *lh);
+extern void freeLeftHeaps(struct leftHeap *lh);
 extern struct leftHeap *delMinLeftHeap(struct leftHeap *lh);
 extern struct leftHeap *mergeLeftHeap(struct leftHeap *lh1, struct leftHeap *lh2);
 extern struct leftHeap *inserLeftHeap(int data, struct leftHeap *lh);
 extern void prLeftHeap(struct leftHeap *lh);
 extern uint findAbLeftHeap(struct leftHeap *lh);
+
+/********************************************/
+/*                  skew-heap               */
+/********************************************/
+
+struct skewHeap {
+    struct treeNode tn;
+};
+
+#define toSkewHeap(tree) container_of(tree, struct skewHeap, tn)
+
+extern struct skewHeap *allocSkewHeap();
+extern void freeSkewHeap(struct skewHeap *sh);
+extern void freeSkewHeaps(struct skewHeap *sh);
+extern struct skewHeap *mergeSkewHeap(struct skewHeap *sh1, struct skewHeap *sh2);
+extern struct skewHeap *insertSkewHeap(int data, struct skewHeap *sh);
+extern void prSkewHeap(struct skewHeap *sh);
+extern struct skewHeap *delMinSkewHeap(struct skewHeap *sh);
 
 #endif

@@ -9,6 +9,7 @@ extern void printBTreeTest();
 extern void binHeapTest();
 extern void buildHeapTest();
 extern void leftHeapTest();
+extern void skewHeapTest();
 
 /* main function */
 void main()
@@ -20,7 +21,9 @@ void main()
     //test 3
     //buildHeapTest();
     //test 4
-    leftHeapTest();
+    //leftHeapTest();
+    //test 5
+    skewHeapTest();
 }
 
 /*------------------------------------------------------------------------*/
@@ -72,4 +75,20 @@ void leftHeapTest()
     printf("---------------delete min heap test---------------------\n");
     next = delMinLeftHeap(cur);
     prLeftHeap(next);
+}
+
+void skewHeapTest()
+{
+    printf("---------------build skew heap test---------------------\n");
+    int i;
+    struct skewHeap *cur = NULL, *next = NULL;
+    for (i = 0; i < 10; i++) {
+        next = insertSkewHeap(arData10[i], cur);
+        cur = next;
+    }
+    prSkewHeap(cur);
+    printf("---------------delete min skew test---------------------\n");
+    next = delMinSkewHeap(cur);
+    prSkewHeap(next);
+    freeSkewHeaps(next);
 }
