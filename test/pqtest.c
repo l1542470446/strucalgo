@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <malloc.h>
 
 #include <saprint.h>
 #include <queue.h>
@@ -10,6 +11,7 @@ extern void binHeapTest();
 extern void buildHeapTest();
 extern void leftHeapTest();
 extern void skewHeapTest();
+extern void binoForestTest();
 
 /* main function */
 void main()
@@ -23,7 +25,9 @@ void main()
     //test 4
     //leftHeapTest();
     //test 5
-    skewHeapTest();
+    //skewHeapTest();
+    //test 6
+    binoForestTest();
 }
 
 /*------------------------------------------------------------------------*/
@@ -91,4 +95,40 @@ void skewHeapTest()
     next = delMinSkewHeap(cur);
     prSkewHeap(next);
     freeSkewHeaps(next);
+}
+
+void binoForestTest()
+{
+    #if 0
+    struct binoQueue *sim = NULL;
+    //sim = allocBinoQueue();
+    int a;
+    a = !!(sim ? sim : 0);
+    printf("a = %d\n", a);
+    return;
+    #endif
+
+    //1. alloc forest
+    struct binoForest *bf = NULL, *tmp = NULL;
+    bf = allocBinoForest(20);
+    if (bf == NULL) {
+        ERROR("pqtest fail : alloc binomial forest \n");
+        return;
+    }
+    //2. add queue to forest
+    struct binoQueue *bq = NULL;
+    uint i;
+    for (i = 0; i < 20; i++) {
+        bq = NULL;
+        bq = allocBinoQueue();
+        if (bq == NULL) {
+            ERROR("pqtest fail : alloc binomial queue \n");
+            return;
+        }
+        bq->element = arData20[i];
+        tmp = addBinoForest(bq, bf);
+        bf = tmp;
+    }
+    prBinoForest(bf);
+    freeBinoForest(bf);
 }

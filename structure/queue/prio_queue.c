@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <math.h>
 
 #include <types.h>
 #include <queue.h>
@@ -416,4 +417,229 @@ void freeSkewHeaps(struct skewHeap *sh)
         freeSkewHeaps(righSh);
     }
     freeSkewHeap(sh);
+}
+
+/********************************************/
+/*            binomial queue                */
+/********************************************/
+
+struct binoQueue *allocBinoQueue()
+{
+    struct binoQueue *bq = NULL;
+    bq = malloc(sizeof(struct binoQueue));
+    if (bq == NULL) {
+        ERROR("binomial queue alloc fail !\n");
+        return bq;
+    }
+    bq->child = bq->sibling = NULL;
+    return bq;
+}
+
+static struct binoTree *allocBinoTree()
+{
+    struct binoTree *bt = NULL;
+    bt = malloc(sizeof(struct binoTree));
+    if (bt == NULL) {
+        //ERROR("");
+        return NULL;
+    }
+    bt->next = NULL;
+    bt->bq = NULL;
+    return bt;
+}
+
+static void freeBinoTrees(struct binoTree *bt)
+{
+    struct binoTree *cur, *tmp, *next;
+    for (cur = bt; cur != NULL; cur = next) {
+        next = cur->next;
+        tmp = cur;
+        free(tmp);
+        tmp = NULL;
+    }
+}
+
+static struct binoTree *allocBinoTrees(uint n)
+{
+    struct binoTree *bt_root, *ptmp, *ntmp;
+    bt_root = ptmp = ntmp = NULL;
+    //1. alloc bt_root
+    bt_root = allocBinoTree();
+    if (bt_root == NULL) {
+        goto fail;
+    }
+    //2. alloc trees
+    uint i;
+    ptmp = bt_root;
+    for (i = 1; i < n; i++) {
+        ntmp = allocBinoTree();
+        if (ntmp == NULL) {
+            freeBinoTrees(bt_root);
+            goto fail;
+        }
+        ptmp->next = ntmp;
+        ptmp = ntmp;
+        ntmp = NULL;
+    }
+    return bt_root;
+fail:
+    ERROR("binomial forest alloc tree fail !\n");
+    return NULL;
+}
+
+struct binoForest *allocBinoForest(uint cap)
+{
+    uint i, tmp_n = 0;
+    struct binoForest *bf = NULL;
+    struct binoTree *bt_root;
+    bf = malloc(sizeof(struct binoForest));
+    tmp_n = log2(cap)+1;
+    bt_root = allocBinoTrees(tmp_n);
+    if ((bf == NULL) || (bt_root == NULL)) {
+        ERROR("binomial queue forest alloc fail !\n");
+        free(bf);
+        free(bt_root);
+        return NULL;
+    }
+
+    bf->cap = cap;
+    bf->size = 0;
+    bf->bt = bt_root;
+    return bf;
+}
+
+void freeBinoForest(struct binoForest *bf)
+{
+    freeBinoTrees(bf->bt);
+    free(bf);
+    bf = NULL;
+}
+
+struct binoQueue *merBinoQueue(struct binoQueue *bq1, struct binoQueue *bq2)
+{
+    if (bq1->element > bq2->element) {
+        return merBinoQueue(bq2, bq1);
+    }
+    bq2->sibling = bq1->child;
+    bq1->child = bq2;
+    return bq1;
+}
+
+struct binoForest *merBinoForest(struct binoForest *bf1, struct binoForest *bf2)
+{
+    if (bf1->cap > bf2->cap) {
+        return merBinoForest(bf2, bf1);
+    }
+
+    uint j, capacity;
+    struct binoQueue *carry, *tmp;
+    struct binoTree *bt1, *bt2;
+
+    capacity = bf1->size + bf2->size;
+    if (capacity > bf2->cap) {
+        //TODO:expand forest
+        ERROR("binomial forest overflow !\n");
+        return NULL;
+    }
+
+    carry = NULL;
+    bt1 = bf1->bt;
+    bt2 = bf2->bt;
+    for (j = 1; j <= bf2->cap; j *= 2) {
+        if ((j > bf1->size) && (carry == NULL)) {
+            break;
+        }
+        // 1 + 2 + 4
+        switch (1*(!!(bt1 ? bt1->bq : 0)) + 2*(!!(bt2->bq)) + 4*(!!carry)) {
+            case 0:
+            case 2:
+                break;
+            case 1:
+                bt2->bq = bt1->bq;
+                bt1->bq = NULL;
+                break;
+            case 3:
+                carry = merBinoQueue(bt1->bq, bt2->bq);
+                bt1->bq = bt2->bq = NULL;
+                break;
+            case 4:
+                bt2->bq = carry;
+                carry = NULL;
+                break;
+            case 5:
+                tmp = carry;
+                carry = merBinoQueue(bt1->bq, tmp);
+                bt1->bq = NULL;
+                break;
+            case 6:
+                tmp = carry;
+                carry = merBinoQueue(bt2->bq, tmp);
+                bt2->bq = NULL;
+                break;
+            case 7:
+                tmp = bt2->bq;
+                bt2->bq = carry;
+                carry = merBinoQueue(bt1->bq, tmp);
+                bt1->bq = NULL;
+                break;
+        }
+        bt2 = bt2->next;
+        if (bt1 != NULL)
+            bt1 = bt1->next;
+    }
+    freeBinoForest(bf1);
+    bf2->size = capacity;
+    return bf2;
+}
+
+struct binoForest *addBinoForest(struct binoQueue *bq, struct binoForest *bf)
+{
+    struct binoForest *tbf = NULL;
+    tbf = allocBinoForest(1);
+    if (tbf == NULL) {
+        return NULL;
+    }
+    tbf->bt->bq = bq;
+    tbf->size = 1;
+    return merBinoForest(tbf, bf);
+}
+
+static void __prBinoQueue(struct binoQueue *bq, uint space, const uint bit)
+{
+    if (bq == NULL) {
+        printf("NULL\n");
+        return;
+    }
+    if (bq->child == NULL) {
+        printf("%-*s", space, "");
+        printf("%-*d\n", bit, bq->element);
+        return;
+    }
+    struct binoQueue *sib;
+    uint ns = space + bit + SPACE_BQ;
+    for (sib = bq->child; sib->sibling != NULL; sib = sib->sibling) {
+        __prBinoQueue(sib, ns, bit);
+    }
+    printf("%-*s", space, "");
+    printf("%-*d", bit, bq->element);
+    printf("%-*s", SPACE_BQ, "");
+    printf("%-*d\n", bit, sib->element);
+}
+
+void prBinoQueue(struct binoQueue *bq)
+{
+    //TODO:calculate max value bit +1(for -negetive value)
+    uint bit = 3; // data bit
+    //start align to 0
+    __prBinoQueue(bq, 0, bit);
+}
+
+void prBinoForest(struct binoForest *bf)
+{
+    struct binoTree *root, *tmp;
+    root = bf->bt;
+    for (tmp = root; tmp != NULL; tmp = tmp->next) {
+        prBinoQueue(tmp->bq);
+        printf("----------------------------\n");
+    }
 }

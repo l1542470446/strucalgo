@@ -77,4 +77,36 @@ extern struct skewHeap *insertSkewHeap(int data, struct skewHeap *sh);
 extern void prSkewHeap(struct skewHeap *sh);
 extern struct skewHeap *delMinSkewHeap(struct skewHeap *sh);
 
+/********************************************/
+/*            binomial queue                */
+/********************************************/
+
+struct binoQueue {
+    int element;
+    struct binoQueue *child;
+    struct binoQueue *sibling;
+};
+
+struct binoTree {
+    struct binoTree *next;
+    struct binoQueue *bq;
+};
+
+struct binoForest {
+    uint cap;//capacity
+    uint size;
+    struct binoTree *bt;
+};
+
+extern struct binoQueue *allocBinoQueue();
+extern struct binoForest *allocBinoForest(uint cap);
+extern void freeBinoForest(struct binoForest *bf);
+extern struct binoForest *addBinoForest(struct binoQueue *bq, struct binoForest *bf);
+extern struct binoQueue *merBinoQueue(struct binoQueue *bq1, struct binoQueue *bq2);
+extern struct binoForest *merBinoForest(struct binoForest *bf1, struct binoForest *bf2);
+
+#define SPACE_BQ 2
+extern void prBinoQueue(struct binoQueue *bq);
+extern void prBinoForest(struct binoForest *bf);
+
 #endif
