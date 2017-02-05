@@ -604,6 +604,76 @@ struct binoForest *addBinoForest(struct binoQueue *bq, struct binoForest *bf)
     return merBinoForest(tbf, bf);
 }
 
+int minValueBF(struct binoForest *bf)
+{
+    struct binoTree *rbt, *tbt;
+    int min;
+
+    rbt = bf->bt;
+    for (tbt = rbt; tbt->bq == NULL; tbt = tbt->next) {};
+    min = tbt->bq->element;
+
+    for (tbt = rbt->next; tbt != NULL; tbt = tbt->next) {
+        if ((tbt->bq != NULL) && (tbt->bq->element < min)) {
+            min = tbt->bq->element;
+        }
+    }
+    return min;
+}
+
+struct binoForest *delMinBinoForest(struct binoForest *bf)
+{
+    //1. find min tree position
+    struct binoTree *rbt, *tbt;
+    int min;
+    uint imin, smin, pmin;
+    rbt = bf->bt;
+    for (tbt = rbt; tbt->bq == NULL; tbt = tbt->next) {};
+    min = tbt->bq->element;
+    //printf("del min value = %d \n", min);
+    imin = 1;
+    for (tbt = rbt->next, imin++; tbt != NULL; imin++, tbt = tbt->next) {
+        if ((tbt->bq != NULL) && (tbt->bq->element < min)) {
+            smin = 0;
+            min = tbt->bq->element;
+        } else {
+            smin++;
+        }
+    }
+    //printf(" min value = %d \n", min);
+    pmin = imin - smin - 1;
+    //printf("(1111111111111111 pmin = %d )\n", pmin);
+    //2. alloc new forest
+    uint size;
+    struct binoForest *delbf = NULL, *newbf = NULL;
+    struct binoQueue *delbq, *tmpbq;
+    size = pow(2, pmin-1) - 1;
+    newbf = allocBinoForest(size);
+    newbf->size = size;
+    //printf("(sssssssssssssss size = %d ))\n", size);
+    //2.1 find min binoTree to del and del pmin bt from the bf
+    uint i,j;
+    for (i = 1, tbt = rbt; i < pmin; i++) {
+        tbt = tbt->next;
+    }
+    delbq = tbt->bq->child;
+    free(tbt->bq);
+    tbt->bq = NULL;
+    bf->size = bf->size - (size + 1);
+    tbt = NULL;
+    //printf("(3333333333333333 bf->size = %d )\n", bf->size);
+    //2.2 put del to new forest
+    for (i = 1, tbt = newbf->bt; i < pmin; i++) {
+        tmpbq = delbq;
+        for (j = 1; j < pmin - i; j++) {
+            tmpbq = tmpbq->sibling;
+        }
+        tbt->bq = tmpbq;
+        tbt = tbt->next;
+    }
+    return merBinoForest(newbf, bf);
+}
+
 static void __prBinoQueue(struct binoQueue *bq, uint space, const uint bit)
 {
     if (bq == NULL) {

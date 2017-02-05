@@ -130,5 +130,14 @@ void binoForestTest()
         bf = tmp;
     }
     prBinoForest(bf);
+    printf("*************************************************\n");
+    int min;
+    min = minValueBF(bf);
+    printf("min value = %d \n", min);
+    printf("*************************************************\n");
+    printf("delete min value test : \n\n");
+    tmp = bf;
+    bf = delMinBinoForest(tmp);
+    prBinoForest(bf);
     freeBinoForest(bf);
 }

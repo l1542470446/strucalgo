@@ -104,6 +104,8 @@ extern void freeBinoForest(struct binoForest *bf);
 extern struct binoForest *addBinoForest(struct binoQueue *bq, struct binoForest *bf);
 extern struct binoQueue *merBinoQueue(struct binoQueue *bq1, struct binoQueue *bq2);
 extern struct binoForest *merBinoForest(struct binoForest *bf1, struct binoForest *bf2);
+extern int minValueBF(struct binoForest *bf);
+extern struct binoForest *delMinBinoForest(struct binoForest *bf);
 
 #define SPACE_BQ 2
 extern void prBinoQueue(struct binoQueue *bq);
