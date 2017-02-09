@@ -4,12 +4,52 @@
 
 #include <saprint.h>
 #include <tree.h>
+#include "data.h"
 
 extern void simpleTreeTest();
+extern void searchTreeTest();
 
 void main()
 {
-    simpleTreeTest();
+    //simpleTreeTest();
+    searchTreeTest();
+}
+
+#include <search_tree.h>
+void searchTreeTest()
+{
+    int data;
+    searchTree *st = NULL;
+    st = buildSearchTree(arData10, 10);
+    printf("----------search tree----------\n");
+    prSearchTree(st);
+    printf("-------------------------------\n");
+    data = vmaxSearchTree(st);
+    printf("max vlaue = %d\n", data);
+    data = vminSearchTree(st);
+    printf("min vlaue = %d\n", data);
+    printf("-------------------------------\n");
+    searchTree *snode = NULL;
+    snode = findSearchTree(10, st);
+    if (snode == NULL) {
+        printf("cloud not find element %d\n", 10);
+    } else {
+        printf("already find element %d\n", snode->element);
+    }
+
+    snode = findSearchTree(20, st);
+    if (snode == NULL) {
+        printf("could not find element %d\n", 20);
+    } else {
+        printf("already find element %d\n", snode->element);
+    }
+    printf("------ delete element 10 ------\n");
+    delSearchTree(10, st);
+    prSearchTree(st);
+    printf("------ delete element 85 ------\n");
+    delSearchTree(85, st);
+    prSearchTree(st);
+    freeSearchTree(st);
 }
 
 void simpleTreeTest()

@@ -1,4 +1,5 @@
 
+GCCFLAG	:= -w
 GCCLIB	:= -lm
 
 TESTDIR	:= test
@@ -12,11 +13,11 @@ SRCFILE := \
 	structure/list/*.c
 
 sorttest:$(SRCFILE)
-	@gcc $(INCLUDE) -o $@ $^ $(TESTDIR)/sorttest.c $(GCCLIB)
+	@gcc $(GCCFLAG) $(INCLUDE) -o $@ $^ $(TESTDIR)/sorttest.c $(GCCLIB)
 pqtest:$(SRCFILE)
-	@gcc $(INCLUDE) -o $@ $^ $(TESTDIR)/pqtest.c $(GCCLIB)
+	@gcc $(GCCFLAG) $(INCLUDE) -o $@ $^ $(TESTDIR)/pqtest.c $(GCCLIB)
 treetest:$(SRCFILE)
-	@gcc $(INCLUDE) -o $@ $^ $(TESTDIR)/treetest.c $(GCCLIB)
+	@gcc $(GCCFLAG) $(INCLUDE) -o $@ $^ $(TESTDIR)/treetest.c $(GCCLIB)
 clean:
 	$(shell [ -e sorttest ] && rm sorttest)
 	$(shell [ -e pqtest ] && rm pqtest)
