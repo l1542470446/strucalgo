@@ -8,11 +8,50 @@
 
 extern void simpleTreeTest();
 extern void searchTreeTest();
+extern void avlTreeTest();
 
 void main()
 {
     //simpleTreeTest();
-    searchTreeTest();
+    //searchTreeTest();
+    avlTreeTest();
+}
+
+#include <avl_tree.h>
+void avlTreeTest()
+{
+    int i;
+    printf("elements : ");
+    for (i = 0;i < 10; i++) {
+        printf("%d ", arData10[i]);
+    }
+    printf("\n---------------------------\n");
+    int max, min;
+    struct avlTree *at = NULL;
+    at = buildAvlTree(arData10, 10);
+    prAvlTree(at);
+    printf("---------------------------\n");
+    max = vmaxAvlTree(at);
+    min = vminAvlTree(at);
+    printf("max = %d \n", max);
+    printf("min = %d \n", min);
+    printf("---------------------------\n");
+    printf("delete %d\n", arData10[0]);
+    at = deleteAvlTree(arData10[0], at);
+    prAvlTree(at);
+    printf("---------------------------\n");
+    printf("delete %d\n", arData10[3]);
+    at = deleteAvlTree(arData10[3], at);
+    prAvlTree(at);
+    printf("---------------------------\n");
+    printf("delete %d %d %d %d \n", arData10[9], arData10[8], arData10[7], arData10[6]);
+    at = deleteAvlTree(arData10[9], at);
+    at = deleteAvlTree(arData10[8], at);
+    at = deleteAvlTree(arData10[7], at);
+    at = deleteAvlTree(arData10[6], at);
+    prAvlTree(at);
+
+    freeAvlTree(at);
 }
 
 #include <search_tree.h>
