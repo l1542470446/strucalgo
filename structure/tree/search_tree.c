@@ -178,5 +178,5 @@ searchTree *delSearchTree(int element, searchTree *st)
 
 void prSearchTree(searchTree *st)
 {
-    prSimpBinTree(st);
+    prBinTree(st);
 }

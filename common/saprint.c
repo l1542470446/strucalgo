@@ -102,3 +102,22 @@ void prSimpBinTree(struct treeNode *head)
 	}
 	freeTnlList(curnlist);
 }
+
+void prBinTree(struct treeNode *head)
+{
+	//caculate max layer
+	uint layermax = layerBinTree(head);
+	//calculate max value bit
+	uint absoMax = findAbMaxBTree(head);
+	uchar bit = uDataBit(absoMax);
+	uint i, j;
+	struct treeNodeList *curnlist = NULL;
+	struct treeNodeList *nextlist = NULL;
+	curnlist = allocTnl();
+	listAddTnlTail(head, curnlist);
+	for (i = 0; i < layermax; i++) {
+		nextlist = __prBinTree(curnlist, i, layermax, bit);
+		curnlist = nextlist;
+	}
+	freeTnlList(curnlist);
+}

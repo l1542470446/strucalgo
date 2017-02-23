@@ -22,5 +22,6 @@ extern void prArrBinTree(int *array,uint num);
 
 extern struct treeNodeList *__prBinTree(struct treeNodeList *head, uint layer, uint layerMax, uchar bit);
 extern void prSimpBinTree(struct treeNode *head);
+extern void prBinTree(struct treeNode *head);
 
 #endif
