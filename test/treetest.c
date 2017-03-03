@@ -22,23 +22,27 @@ void main()
 #include <splay_tree.h>
 void splayTreeTest()
 {
-    int data[10] = {10,9,8,7,6,5,4,3,2,1};
+    int data[10] = {11,15,8,1,6,5,4,3,2,7};
     splayTree *st;
     printf("----------build splay tree-----------\n");
     st = buildSplayTree(data, 10);
     prSplayTree(st);
-    printf("----------access element 5-----------\n");
-    st = accessSplayTree(5, st);
+    printf("----------access element 6-----------\n");
+    st = accessSplayTree(6, st);
+    prSplayTree(st);
+    printf("----------access element 4-----------\n");
+    st = accessSplayTree(4, st);
     prSplayTree(st);
     printf("----------access element 9-----------\n");
     st = accessSplayTree(9, st);
     prSplayTree(st);
-    printf("----------access element 11-----------\n");
-    st = accessSplayTree(11, st);
+    printf("----------delete element 2-----------\n");
+    st = deleteSplayTree(2, st);
     prSplayTree(st);
-    printf("----------delete element 6-----------\n");
-    st = deleteSplayTree(6, st);
+    printf("----------insert element 20-----------\n");
+    st = insertSplayTree(20, st);
     prSplayTree(st);
+
     freeSplayTree(st);
 }
 
