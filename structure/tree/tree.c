@@ -83,3 +83,77 @@ void freeTreeNode(struct treeNode *tn)
     free(tn);
     tn = NULL;
 }
+
+/*          k2                     k1          k2.left = C
+ *         /  \                   /  \         k1.right = k2
+ *        k1  A   ------->       B   K2
+ *       /  \                   /   /  \
+ *      B   C                  D   C   A
+ *     /
+ *    D
+ */
+
+struct treeNode *singleRotateWithLeft(struct treeNode *k2)
+{
+    struct treeNode *k1, *C;
+    k1 = k2->left;
+    C = k1->right;
+    k2->left = C;
+    k1->right = k2;
+    return k1;
+}
+
+/*        k2                      k1            k2.right = k1.left(B)
+ *       /  \                    /  \           k1.left = k2
+ *      A   k1    ------->      k2  C
+ *         /  \                /  \  \
+ *        B   C               A   B   D
+ *             \
+ *             D
+ */
+
+struct treeNode *singleRotateWithRight(struct treeNode *k2)
+{
+    struct treeNode *k1, *B;
+    k1 = k2->right;
+    B = k1->left;
+    k2->right = B;
+    k1->left = k2;
+    return k1;
+}
+
+/*             k1                 k1                    k3
+ *            /  \               /  \                 /    \
+ *           k2   A   ----->    k3  A     ----->     k2     k1
+ *          /  \               /  \                 /  \   /  \
+ *         B   k3             k2  D                B   C  D   A
+ *            /  \           /  \
+ *           C   D          B   C
+ */
+
+struct treeNode *doubleRotateWithLeft(struct treeNode *k1)
+{
+    struct treeNode *k2,*k3;
+    k2 = k1->left;
+    k3 = singleRotateWithRight(k2);
+    k1->left = k3;
+    return singleRotateWithLeft(k1);
+}
+
+/*         k1                k1                     k3
+ *        /  \              /  \                   /   \
+ *       A   k2   ----->   A   k3    ----->      k1     k2
+ *          /  \              /  \              /  \   /  \
+ *         k3  B             C   k2            A   C  D    B
+ *        /  \                  /  \
+ *       C    D                D    B
+ */
+
+struct treeNode *doubleRotateWithRight(struct treeNode *k1)
+{
+    struct treeNode *k2, *k3;
+    k2 = k1->right;
+    k3 = singleRotateWithLeft(k2);
+    k1->right = k3;
+    return singleRotateWithRight(k1);
+}

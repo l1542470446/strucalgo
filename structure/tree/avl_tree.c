@@ -60,7 +60,7 @@ static int updateHeight(struct avlTree *at)
  *    D
  */
 
-static struct avlTree *singleRotateWithLeft(struct avlTree *k2)
+static struct avlTree *_singleRotateWithLeft(struct avlTree *k2)
 {
     struct avlTree *k1, *tmpC;
     k1 = toAvlTree(k2->tn.left);
@@ -81,7 +81,7 @@ static struct avlTree *singleRotateWithLeft(struct avlTree *k2)
  *             D
  */
 
-static struct avlTree *singleRotateWithRight(struct avlTree *k2)
+static struct avlTree *_singleRotateWithRight(struct avlTree *k2)
 {
     struct avlTree *k1, *tmpB;
     k1 = toAvlTree(k2->tn.right);
@@ -103,13 +103,13 @@ static struct avlTree *singleRotateWithRight(struct avlTree *k2)
  *    note : node C&D , only one exist
  */
 
-static struct avlTree *doubleRotateWithLeft(struct avlTree *k1)
+static struct avlTree *_doubleRotateWithLeft(struct avlTree *k1)
 {
     struct avlTree *k2,*k3;
     k2 = toAvlTree(k1->tn.left);
-    k3 = singleRotateWithRight(k2);
+    k3 = _singleRotateWithRight(k2);
     k1->tn.left = &(k3->tn);
-    return singleRotateWithLeft(k1);
+    return _singleRotateWithLeft(k1);
 }
 
 /*         k1                k1                     k3
@@ -121,13 +121,13 @@ static struct avlTree *doubleRotateWithLeft(struct avlTree *k1)
  *       C   null            null  B
  */
 
-static struct avlTree *doubleRotateWithRight(struct avlTree *k1)
+static struct avlTree *_doubleRotateWithRight(struct avlTree *k1)
 {
     struct avlTree *k2, *k3;
     k2 = toAvlTree(k1->tn.right);
-    k3 = singleRotateWithLeft(k2);
+    k3 = _singleRotateWithLeft(k2);
     k1->tn.right = &(k3->tn);
-    return singleRotateWithRight(k1);
+    return _singleRotateWithRight(k1);
 }
 
 struct avlTree *insertAvlTree(int element, struct avlTree *at)
@@ -142,9 +142,9 @@ struct avlTree *insertAvlTree(int element, struct avlTree *at)
         at->tn.left = &(left->tn);
         if (height(left) - height(right) == 2) {
             if (element < left->tn.element) {
-                at = singleRotateWithLeft(at);
+                at = _singleRotateWithLeft(at);
             } else {
-                at = doubleRotateWithLeft(at);
+                at = _doubleRotateWithLeft(at);
             }
         }
     } else if (element >= at->tn.element) {
@@ -154,9 +154,9 @@ struct avlTree *insertAvlTree(int element, struct avlTree *at)
         at->tn.right = &(right->tn);
         if (height(right) - height(left) == 2) {
             if (element >= right->tn.element) {
-                at = singleRotateWithRight(at);
+                at = _singleRotateWithRight(at);
             } else {
-                at = doubleRotateWithRight(at);
+                at = _doubleRotateWithRight(at);
             }
         }
     }
@@ -182,9 +182,9 @@ struct avlTree *deleteAvlTree(int element, struct avlTree *at)
         updateHeight(at);
         if (height(right) - height(left) == 2) {
             if (right->tn.right != NULL) {
-                at = singleRotateWithRight(at);
+                at = _singleRotateWithRight(at);
             } else {
-                at = doubleRotateWithRight(at);
+                at = _doubleRotateWithRight(at);
             }
         }
     } else if (element > at->tn.element) {
@@ -197,9 +197,9 @@ struct avlTree *deleteAvlTree(int element, struct avlTree *at)
         updateHeight(at);
         if (height(left) - height(right) == 2) {
             if (left->tn.left != NULL) {
-                at = singleRotateWithLeft(at);
+                at = _singleRotateWithLeft(at);
             } else {
-                at = doubleRotateWithLeft(at);
+                at = _doubleRotateWithLeft(at);
             }
         }
     } else if (at->tn.left && at->tn.right) {

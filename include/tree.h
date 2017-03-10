@@ -16,10 +16,16 @@ struct treeNode {
     struct treeNode *right;
 };
 
+/* tree basic functions */
 extern uint layerBinTree(struct treeNode *tn);
 extern int maxBinTree(struct treeNode *tn);
 extern int minBinTree(struct treeNode *tn);
 extern uint findAbMaxBTree(struct treeNode *tn);
+
+extern struct treeNode *singleRotateWithLeft(struct treeNode *tn);
+extern struct treeNode *singleRotateWithRight(struct treeNode *tn);
+extern struct treeNode *doubleRotateWithLeft(struct treeNode *tn);
+extern struct treeNode *doubleRotateWithRight(struct treeNode *tn);
 
 /* tree node list */
 struct treeNodeList {

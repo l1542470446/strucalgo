@@ -26,7 +26,7 @@ splayTree *buildSplayTree(int *elements, uint num)
  *      C   D                     B    A
  */
 
-static splayTree *leftRotateWithLeft(splayTree *k3)
+static splayTree *_leftRotateWithLeft(splayTree *k3)
 {
     splayTree *k2, *k1;
     k2 = k3->left;
@@ -47,7 +47,7 @@ static splayTree *leftRotateWithLeft(splayTree *k3)
  *          C    D         A   B
  */
 
-static splayTree *rightRotateWithRight(splayTree *k3)
+static splayTree *_rightRotateWithRight(splayTree *k3)
 {
     splayTree *k2, *k1;
     k2 = k3->right;
@@ -68,7 +68,7 @@ static splayTree *rightRotateWithRight(splayTree *k3)
  *         C    D
  */
 
-static splayTree *leftRotateWithRight(splayTree *k3)
+static splayTree *_leftRotateWithRight(splayTree *k3)
 {
     splayTree *k2, *k1;
     k2 = k3->left;
@@ -89,7 +89,7 @@ static splayTree *leftRotateWithRight(splayTree *k3)
  *        C    D
  */
 
-static splayTree *rightRotateWithLeft(splayTree *k3)
+static splayTree *_rightRotateWithLeft(splayTree *k3)
 {
     splayTree *k2, *k1;
     k2 = k3->right;
@@ -160,7 +160,7 @@ splayTree *accessSplayTree(int element, splayTree *st)
             } else {
                 child->left = accessSplayTree(element, left);
                 if (element == child->left->element) {
-                    st = leftRotateWithLeft(st);
+                    st = __leftRotateWithLeft(st);
                 }
             }
         } else if (element > child->element) {
@@ -170,7 +170,7 @@ splayTree *accessSplayTree(int element, splayTree *st)
             } else {
                 child->right = accessSplayTree(element, right);
                 if (element == child->right->element) {
-                    st = leftRotateWithRight(st);
+                    st = _leftRotateWithRight(st);
                 }
             }
         } else {
@@ -187,7 +187,7 @@ splayTree *accessSplayTree(int element, splayTree *st)
             } else {
                 child->left = accessSplayTree(element, left);
                 if (element == child->left->element) {
-                    st = rightRotateWithLeft(st);
+                    st = _rightRotateWithLeft(st);
                 }
             }
         } else if (element > child->element) {
@@ -197,7 +197,7 @@ splayTree *accessSplayTree(int element, splayTree *st)
             } else {
                 child->right = accessSplayTree(element, right);
                 if (element == child->right->element) {
-                    st = rightRotateWithRight(st);
+                    st = _rightRotateWithRight(st);
                 }
             }
         } else {
