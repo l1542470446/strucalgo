@@ -50,4 +50,10 @@ extern bool listAddTnl(struct treeNode *tn, struct treeNodeList *list);
 extern bool listAddTnlTail(struct treeNode *tn, struct treeNodeList *list);
 extern void listDelTnl(struct treeNodeList *tnl);
 
+#define list_for_each_tree(pos, head) \
+    for (pos = (head)->next; pos != (head); pos = pos->next)
+
+#define list_for_each_prev_tree(pos , head) \
+    for (pos = (head)->prev; pos != (head); pos = pos->prev)
+
 #endif
