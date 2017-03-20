@@ -10,13 +10,42 @@ extern void simpleTreeTest();
 extern void searchTreeTest();
 extern void avlTreeTest();
 extern void splayTreeTest();
+extern void rbTreeTest();
 
 void main()
 {
     //simpleTreeTest();
     //searchTreeTest();
     //avlTreeTest();
-    splayTreeTest();
+    //splayTreeTest();
+    rbTreeTest();
+}
+
+#include <rb_tree.h>
+void rbTreeTest()
+{
+    int data[10] = {1,2,3,4,5,6,7,8,9,10};
+    struct rbTree *root;
+    printf("---------------build a read-black-tree----------------\n");
+    root = buildRbTree(data, 10);
+    prRbTree(root);
+    printf("--------------- insert element 20 --------------------\n");
+    root = insertRbTree(20, root);
+    prRbTree(root);
+    printf("--------------- insert element 30 --------------------\n");
+    root = insertRbTree(30, root);
+    prRbTree(root);
+    printf("--------------- insert element 25 --------------------\n");
+    root = insertRbTree(25, root);
+    prRbTree(root);
+    printf("----------------delete element 10----------------------\n");
+    root = deleteRbTree(10, root);
+    prRbTree(root);
+    printf("----------------delete element 40----------------------\n");
+    root = deleteRbTree(40, root);
+    prRbTree(root);
+    freeRbTree(root);
+    root = NULL;
 }
 
 #include <splay_tree.h>
