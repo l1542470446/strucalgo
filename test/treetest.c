@@ -11,6 +11,7 @@ extern void searchTreeTest();
 extern void avlTreeTest();
 extern void splayTreeTest();
 extern void rbTreeTest();
+extern void aaTreeTest();
 
 void main()
 {
@@ -18,7 +19,36 @@ void main()
     //searchTreeTest();
     //avlTreeTest();
     //splayTreeTest();
-    rbTreeTest();
+    //rbTreeTest();
+    aaTreeTest();
+}
+
+#include <aa_tree.h>
+void aaTreeTest()
+{
+    int max , min;
+    struct aaTree *root;
+    printf("---------------build AA-tree----------------\n");
+    root = buildAaTree(arData10, 10);
+    prAaTree(root);
+    max = vmaxAaTree(root);
+    min = vminAaTree(root);
+    printf("max = %d, mim = %d\n", max, min);
+    printf("---------------  insert 11  ----------------\n");
+    root = insertAaTree(11, root);
+    prAaTree(root);
+    printf("---------------  delete 11  ----------------\n");
+    root = deleteAaTree(11, root);
+    prAaTree(root);
+    printf("---------------  delete -10  ----------------\n");
+    root = deleteAaTree(-10, root);
+    prAaTree(root);
+    printf("---------------  delete  0  ----------------\n");
+    root = deleteAaTree(0, root);
+    prAaTree(root);
+
+    freeAaTree(root);
+    root = NULL;
 }
 
 #include <rb_tree.h>
