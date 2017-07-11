@@ -8,10 +8,11 @@ extern void graphPrintTest(void);
 
 int main(void)
 {
-    graphPrintTest();
+    //graphPrintTest();
+    topSortTest();
 }
 
-void graphPrintTest()
+static struct graph *createGraphTest()
 {
 /** graph adjacency list
  * 1 -> 2 -> 4 -> 3
@@ -37,5 +38,19 @@ void graphPrintTest()
     idenLinkVertex(gra, 5, 4);
     idenLinkVertex(gra, 5, 7);
     idenLinkVertex(gra, 7, 6);
+    return gra;
+}
+
+void graphPrintTest()
+{
+    struct graph *gra = NULL;
+    gra = createGraphTest();
     prGraph(gra);
+}
+
+void topSortTest()
+{
+    struct graph *gra = NULL;
+    gra = createGraphTest();
+    topSortGraph(gra);
 }

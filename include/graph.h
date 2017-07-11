@@ -38,4 +38,6 @@ extern int idenLinkVertex(struct graph *gra, int32_t ids, int32_t ide);
 
 extern void prGraph(struct graph *gra);
 
+extern void topSortGraph(struct graph *gra);
+
 #endif
