@@ -39,6 +39,9 @@ GRAP_PATH := $(STRC_PATH)/graph
 GRAP_FILE := \
 		$(GRAP_PATH)/*.c
 
+STAK_FILE := \
+		$(STRC_PATH)/stack.c
+
 sorttest:$(SORT_FILE)
 	@gcc $(GCCFLAG) $(INCLUDE) -o $@ $^ $(TESTDIR)/sorttest.c $(GCCLIB)
 pqtest:$(PRQU_FILE)
@@ -49,6 +52,8 @@ randtest:$(RAND_FILE)
 	@gcc $(GCCFLAG) $(INCLUDE) -o $@ $^ $(TESTDIR)/randtest.c $(GCCLIB)
 graphtest:$(GRAP_FILE)
 	@gcc $(GCCFLAG) $(INCLUDE) -o $@ $^ $(TESTDIR)/graphtest.c $(GCCLIB)
+stacktest:$(STAK_FILE)
+	@gcc $(GCCFLAG) $(INCLUDE) -o $@ $^ $(TESTDIR)/stacktest.c $(GCCLIB)
 
 clean:
 	$(shell [ -e sorttest ] && rm sorttest)
@@ -56,3 +61,4 @@ clean:
 	$(shell [ -e treetest ] && rm treetest)
 	$(shell [ -e randtest ] && rm randtest)
 	$(shell [ -e graphtest ] && rm graphtest)
+	$(shell [ -e stacktest ] && rm stacktest)
